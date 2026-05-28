@@ -10,6 +10,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    service: 'Chameleon Website API',
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.use(helloRoutes);
 app.use("/auth",authRoutes);
 // use newsRouters

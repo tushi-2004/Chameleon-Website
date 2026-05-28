@@ -21,7 +21,7 @@ pipeline {
                 echo 'Building React frontend...'
                 dir("${FRONTEND_DIR}") {
                     bat '"%NPM_CMD%" install'
-                    bat '"%NPM_CMD%" run build'
+                    bat 'set CI=false && "%NPM_CMD%" run build'
                 }
             }
         }

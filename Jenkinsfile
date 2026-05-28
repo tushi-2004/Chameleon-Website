@@ -1,11 +1,12 @@
 pipeline {
     agent any
 
-    environment {
-        FRONTEND_DIR = 'front_end_project'
-        BACKEND_DIR = 'back_end_project'
-        APP_VERSION = "1.0.${BUILD_NUMBER}"
-    }
+  environment {
+    FRONTEND_DIR = 'front_end_project'
+    BACKEND_DIR = 'back_end_project'
+    APP_VERSION = "1.0.${BUILD_NUMBER}"
+    NPM_CMD = 'C:\\Program Files\\nodejs\\npm.cmd'
+}
 
     stages {
         stage('Checkout') {
@@ -19,8 +20,8 @@ pipeline {
             steps {
                 echo 'Building React frontend...'
                 dir("${FRONTEND_DIR}") {
-                    bat 'npm.cmd install'
-                    bat 'npm.cmd run build'
+                    bat '"%NPM_CMD%" install'
+                    bat '"%NPM_CMD%" run build'
                 }
             }
         }
@@ -29,8 +30,8 @@ pipeline {
             steps {
                 echo 'Running backend automated tests...'
                 dir("${BACKEND_DIR}") {
-                    bat 'npm.cmd install'
-                    bat 'npm.cmd test'
+                    bat '"%NPM_CMD%" install'
+                    bat '"%NPM_CMD%" test'
                 }
             }
         }
@@ -51,10 +52,10 @@ pipeline {
             steps {
                 echo 'Running npm audit security scans...'
                 dir("${FRONTEND_DIR}") {
-                    bat 'npm.cmd audit || exit 0'
+                    bat '"%NPM_CMD%" audit || exit 0'
                 }
                 dir("${BACKEND_DIR}") {
-                    bat 'npm.cmd audit || exit 0'
+                    bat '"%NPM_CMD%" audit || exit 0'
                 }
             }
         }
